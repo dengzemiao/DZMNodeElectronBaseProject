@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSP 安全策略（可选，用于生产环境）
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  -->
+  <title>Hello World - Electron</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 主容器 -->
+  <div class="container">
+    <!-- 欢迎图标 -->
+    <div class="emoji">👋</div>
+    
+    <!-- 标题 -->
+    <h1>你好，世界！</h1>
+    <p class="subtitle">Hello World - Electron Desktop App</p>
+    
+    <!-- 版本信息显示区域 -->
+    <div class="info">
+      <div class="info-item">
+        <span class="info-label">Node 版本:</span>
+        <span class="info-value" id="node-version">加载中...</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Chrome 版本:</span>
+        <span class="info-value" id="chrome-version">加载中...</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Electron 版本:</span>
+        <span class="info-value" id="electron-version">加载中...</span>
+      </div>
+    </div>
+
+    <!-- 交互按钮 -->
+    <button class="button" onclick="handleClick()">点击我 🚀</button>
+  </div>
+
+  <!-- 渲染进程脚本 -->
+  <script src="js/renderer.js"></script>
+</body>
+</html>
+
