@@ -3,6 +3,7 @@
 * Node: v22.12.0
 * Electron: v39.x
 * 自用 `Node Electron` 基础空框架，方便快速进入开发调试
+* [package.json 配置字段分析](https://blog.csdn.net/zz00008888/article/details/156455603)
 
 ---
 
