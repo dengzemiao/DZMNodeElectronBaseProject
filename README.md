@@ -72,8 +72,8 @@ npm install
 
 ### 2. 运行开发模式
 ```bash
-npm start        # 普通启动
-npm run dev      # 开发模式（自动打开开发者工具）
+npm npm serve        # 普通启动
+npm run serve:dev    # 开发模式（自动打开开发者工具）
 ```
 
 ### 3. 打包应用

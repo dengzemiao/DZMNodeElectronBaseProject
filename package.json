@@ -4,8 +4,8 @@
   "description": "自用 Node Electron 基础空框架",
   "main": "src/main/main.js",
   "scripts": {
-    "start": "electron .",
-    "dev": "electron . --dev",
+    "serve": "electron .",
+    "serve:dev": "electron . --dev",
     "build": "electron-builder",
     "build:mac": "electron-builder --mac",
     "build:win": "electron-builder --win",
