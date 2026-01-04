@@ -22,6 +22,15 @@ DZMNodeElectronBaseProject/
 │       │   └── style.css        # 主样式
 │       └── js/                  # 前端脚本
 │           └── renderer.js      # 页面逻辑
+├── build/                       # 构建资源目录
+│   ├── icons/                   # 应用图标（macOS/Windows/Linux）
+│   │   ├── icon.icns           # macOS 图标
+│   │   ├── icon.ico            # Windows 图标
+│   │   ├── icon.png            # Linux 图标
+│   │   └── linux/              # Linux 多尺寸图标
+│   └── README.md               # 资源说明文档
+├── scripts/                     # 脚本目录
+│   └── build-icons.js          # 图标生成脚本
 ├── assets/                      # 资源文件（图标、图片等）
 ├── dist/                        # 打包输出目录
 ├── node_modules/               
@@ -58,8 +67,11 @@ DZMNodeElectronBaseProject/
 ### 核心依赖
 ```json
 {
-  "electron": "^39.2.7",           // Electron 核心框架
-  "electron-builder": "^26.0.12"   // 应用打包工具
+  "devDependencies": {
+    "electron": "^39.2.7",              // Electron 核心框架
+    "electron-builder": "^26.0.12",     // 应用打包工具
+    "electron-icon-builder": "^2.0.1"   // 图标生成工具（推荐安装，提升速度）
+  }
 }
 ```
 
@@ -68,7 +80,17 @@ DZMNodeElectronBaseProject/
 ### 1. 安装依赖
 ```bash
 npm install
+
+# 这会安装：
+# - electron（核心框架）
+# - electron-builder（打包工具）
+# - electron-icon-builder（图标生成，推荐安装以提升速度）
 ```
+
+**💡 说明**：虽然图标生成使用 `npx` 可以不安装 `electron-icon-builder`，但安装后：
+- ⚡ 速度更快（使用本地版本）
+- 🔒 版本稳定（锁定版本号）
+- 📦 离线可用（无需每次下载）
 
 ### 2. 运行开发模式
 ```bash
@@ -76,15 +98,43 @@ npm run serve        # 普通启动
 npm run serve:dev    # 开发模式（自动打开开发者工具）
 ```
 
-### 3. 打包应用
+### 3. 生成应用图标（可选）
+```bash
+# 准备一个 1024x1024 的 PNG 源图标，命名为 source-icon.png
+# 放在项目根目录，然后运行：
+npm run build:icons
+
+# 会自动生成：
+# - build/icons/icon.icns  (macOS)
+# - build/icons/icon.ico   (Windows)
+# - build/icons/icon.png   (Linux)
+```
+
+### 4. 打包应用
 ```bash
 npm run build          # 打包当前平台
 npm run build:mac      # 打包 macOS 版本（.dmg + .zip）
 npm run build:win      # 打包 Windows 版本（.exe + .zip）
 npm run build:linux    # 打包 Linux 版本（AppImage + .deb）
+npm run build:all      # 打包所有平台（macOS + Windows + Linux）
 ```
 
 打包后的文件会输出到 `dist/` 目录。
+
+### 5. 其他实用命令
+```bash
+# 只构建不打包（用于调试）
+electron-builder --dir
+
+# 指定架构打包
+npm run build:mac -- --x64        # Intel Mac
+npm run build:mac -- --arm64      # Apple Silicon Mac
+npm run build:win -- --ia32       # 32位 Windows
+npm run build:win -- --x64        # 64位 Windows
+
+# 清理构建缓存
+electron-builder clean
+```
 
 ## ✨ 功能特性
 
@@ -93,8 +143,12 @@ npm run build:linux    # 打包 Linux 版本（AppImage + .deb）
 - ✅ 显示 Node、Chrome、Electron 版本信息
 - ✅ 使用安全的 Preload 模式（推荐）
 - ✅ 代码结构清晰，注释详细
+- ✅ 规范的项目结构，易于扩展
 - ✅ 开发者工具支持
+- ✅ 完整的图标管理体系
+- ✅ 自动化图标生成工具
 - ✅ 跨平台打包（macOS、Windows、Linux）
+- ✅ 详细的打包配置文档
 
 ## 🔧 开发说明
 
@@ -152,10 +206,63 @@ ipcMain.on('message', (event, data) => {
 - **Vite**: 推荐使用 `vite-plugin-electron` 提升开发体验
 
 ### 3. 添加应用图标
-将图标文件放在 `assets/icons/` 目录，然后在 `package.json` 的 `build` 配置中引用。
+
+#### 🎨 自动生成（推荐 ⭐）
+
+**最简单的方式！一键生成所有平台图标。**
+
+```bash
+# 1. 准备源图标
+#    - 尺寸：1024x1024 像素（正方形）
+#    - 格式：PNG
+#    - 背景：透明
+#    - 命名：source-icon.png
+#    - 位置：项目根目录
+
+# 2. 运行生成命令
+npm run build:icons
+
+# 3. 完成！
+#    自动生成所有需要的图标：
+#    ✓ build/icons/icon.icns  (macOS)
+#    ✓ build/icons/icon.ico   (Windows)  
+#    ✓ build/icons/icon.png   (Linux)
+#    ✓ 多尺寸 PNG (16x16 ~ 1024x1024)
+```
+
+#### 🌐 手动制作（备用方案）
+
+如果自动生成遇到问题，可以使用在线工具：
+
+**在线工具**：
+- [CloudConvert](https://cloudconvert.com/) - PNG → ICNS/ICO（推荐）
+- [ConvertICO](https://convertico.com/) - PNG → ICO
+- [iConvert Icons](https://iconverticons.com/) - 全平台图标
+
+**手动放置位置**：
+- `build/icons/icon.icns` - macOS 图标
+- `build/icons/icon.ico` - Windows 图标
+- `build/icons/icon.png` - Linux 图标（512x512 或更大）
+
+**图标规格**：
+- macOS (.icns): 包含 16-1024 像素的多个尺寸
+- Windows (.ico): 包含 16-256 像素的多个尺寸
+- Linux (.png): 至少 512x512 像素，透明背景
+
+详细说明请查看：`build/README.md`
 
 ### 4. 使用第三方包
 直接 `npm install` 即可，在主进程和 preload 脚本中都可以使用 Node.js 包。
+
+### 5. 打包配置
+详细的打包配置说明（NSIS 选项、图标配置、常见坑点等）请查看项目文档。
+
+**常用配置**：
+- `oneClick`: 是否一键安装（Windows）
+- `perMachine`: 单用户 vs 所有用户安装
+- `allowToChangeInstallationDirectory`: 允许选择安装目录
+- `createDesktopShortcut`: 创建桌面快捷方式
+- 更多配置请参考 `package.json` 中的 `build` 配置项
 
 ## 🛠️ 技术栈
 
@@ -166,10 +273,62 @@ ipcMain.on('message', (event, data) => {
 
 ## 📖 参考资源
 
+### 官方文档
 - [Electron 官方文档](https://www.electronjs.org/docs/latest/)
 - [Electron 中文文档](https://www.electronjs.org/zh/docs/latest/)
 - [进程模型说明](https://www.electronjs.org/docs/latest/tutorial/process-model)
 - [安全最佳实践](https://www.electronjs.org/docs/latest/tutorial/security)
+
+### 打包相关
+- [electron-builder 官方文档](https://www.electron.build/)
+- [macOS 配置](https://www.electron.build/configuration/mac)
+- [Windows 配置](https://www.electron.build/configuration/win)
+- [Linux 配置](https://www.electron.build/configuration/linux)
+
+### 项目文档
+- `build/README.md` - 构建资源和图标说明
+- `build/icons/README.md` - 图标快速指南
+- `src/` 目录下的各文件 - 详细的代码注释
+
+## 📋 完整命令列表
+
+```bash
+# 开发命令
+npm run serve           # 启动应用
+npm run serve:dev       # 启动应用（开发者工具）
+
+# 图标生成
+npm run build:icons     # 自动生成所有平台图标 ⭐ 推荐
+
+# 打包命令
+npm run build           # 打包当前平台
+npm run build:mac       # 打包 macOS
+npm run build:win       # 打包 Windows
+npm run build:linux     # 打包 Linux
+npm run build:all       # 打包所有平台
+```
+
+## 💡 常见问题
+
+### Q: 如何生成图标？
+A: 在项目根目录放置 `source-icon.png`（1024x1024，透明背景），运行 `npm run build:icons` 即可自动生成
+
+### Q: 图标不显示？
+A: 确保图标文件存在于 `build/icons/` 目录，并且格式正确（macOS 用 .icns，Windows 用 .ico）
+
+### Q: 打包体积太大？
+A: 在 `package.json` 的 `build.files` 中只包含必要的文件，排除不需要的依赖
+
+### Q: Windows 安装提示权限错误？
+A: 设置 `nsis.perMachine: false` 使用单用户安装，或者 `nsis.allowElevation: true` 允许提升权限
+
+### Q: macOS 提示应用已损坏？
+A: 开发阶段用户可执行 `sudo xattr -cr /Applications/YourApp.app`，生产环境需要进行代码签名和公证
+
+### Q: 如何调试打包问题？
+A: 使用 `electron-builder --dir` 只构建不打包，或使用 `DEBUG=electron-builder electron-builder` 查看详细日志
+
+更多问题和解决方案请参考项目文档。
 
 ---
 

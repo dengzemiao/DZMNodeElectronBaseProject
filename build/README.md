@@ -63,20 +63,26 @@ build/
 
 ## 🚀 快速生成图标
 
-### 方法一：使用 electron-icon-builder
+### ⭐ 推荐方法：自动生成
+
+**最简单快捷！一键生成所有平台图标。**
 
 ```bash
-# 安装工具
-npm install --save-dev electron-icon-builder
+# 1. 准备源图标（1024x1024 PNG，透明背景）
+#    放在项目根目录，命名为 source-icon.png
 
-# 创建生成脚本
-node scripts/build-icons.js
+# 2. 运行生成命令
+npm run build:icons
+
+# 3. 完成！自动生成所有图标
 ```
 
-### 方法二：在线工具
+### 🌐 备用方法：在线工具
 
-1. **图标转换**:
-   - [CloudConvert](https://cloudconvert.com/) - PNG 转 ICNS/ICO
+如果自动生成遇到问题，可以使用在线工具：
+
+1. **图标转换工具**:
+   - [CloudConvert](https://cloudconvert.com/) - PNG 转 ICNS/ICO（推荐）
    - [ConvertICO](https://convertico.com/) - PNG 转 ICO
    - [iConvert Icons](https://iconverticons.com/) - 全平台图标
 
