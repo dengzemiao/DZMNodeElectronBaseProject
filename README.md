@@ -72,7 +72,7 @@ npm install
 
 ### 2. 运行开发模式
 ```bash
-npm npm serve        # 普通启动
+npm run serve        # 普通启动
 npm run serve:dev    # 开发模式（自动打开开发者工具）
 ```
 

@@ -9,7 +9,9 @@
     "build": "electron-builder",
     "build:mac": "electron-builder --mac",
     "build:win": "electron-builder --win",
-    "build:linux": "electron-builder --linux"
+    "build:linux": "electron-builder --linux",
+    "build:all": "electron-builder -mwl",
+    "build:icons": "node scripts/build-icons.js"
   },
   "keywords": [
     "electron",
@@ -21,31 +23,40 @@
     "appId": "com.dzm.electron.base",
     "productName": "DZM Electron App",
     "directories": {
-      "output": "dist"
+      "output": "dist",
+      "buildResources": "build"
     },
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
     "mac": {
       "target": [
         "dmg",
         "zip"
       ],
+      "icon": "build/icons/icon.icns",
       "category": "public.app-category.utilities"
     },
     "win": {
       "target": [
         "nsis",
         "zip"
-      ]
+      ],
+      "icon": "build/icons/icon.ico"
     },
     "linux": {
       "target": [
         "AppImage",
         "deb"
       ],
+      "icon": "build/icons/",
       "category": "Utility"
     }
   },
   "devDependencies": {
     "electron": "^39.2.7",
-    "electron-builder": "^26.0.12"
+    "electron-builder": "^26.0.12",
+    "electron-icon-builder": "^2.0.1"
   }
 }
